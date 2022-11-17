@@ -7,7 +7,6 @@ import math
 
 class Circle:
 
-    map = Map()
     keySpeed = .01
     rotateSpeed = .3
     speedSin, speedCos = 0,0
@@ -17,8 +16,9 @@ class Circle:
     pos = (1,1)
     radius = 25
     
-    def __init__(self, rgb):
+    def __init__(self, rgb, map):
         self.rgb = rgb
+        self.map = map
     
     def placePlanet(self):
       if pygame.key.get_pressed()[K_SPACE]:
@@ -35,7 +35,6 @@ class Circle:
 
     def noWall(self, x, y):
         # Return True if location is not a wall
-        print(x,y)
         return (x,y) not in self.map.wallMap
 
     def playerCollision(self, dx, dy):
@@ -79,3 +78,7 @@ class Circle:
             self.angle += self.rotateSpeed * speed
         self.angle%=math.tau
 
+
+    def update(self):
+        self.move()
+        self.placePlanet() 

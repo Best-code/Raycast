@@ -3,50 +3,24 @@ from Circle import Circle
 import pygame
 from pygame.locals import *
 import sys
-import numpy
 from map import Map
 from RaycastFunction import RayCasting
 
 class RaycastGame(GameEngine):
-
-
-    # Space bar to place this circle which will connect to the WASD with a line
-    planet = Circle((0,0,0))
-
-    planet.keyX = 5
-    planet.keyY = 5
-
-    # Grid set up
 
     def __init__(self):
         super().__init__()
         self.load()
 
         self.MAP = Map()
+        
         self.CELLSIZE = self.MAP.CELLSIZE
+        self.planet = Circle((0,0,0), self.MAP)
 
         # Circle controllable with WASD
-        self.wasd = Circle((123, 255, 123))
+        self.wasd = Circle((123, 255, 123), self.MAP)
 
         self.raycast = RayCasting(self)
-
-
-    def DDA(self):
-      #                           -
-      #                         * |
-      # Remember the Plane is - --m-- +
-      #      * = target           |
-      #      m = mouse            +
-
-      
-      distX = self.wasd.keyX - self.planet.pos[0]
-      distY = self.wasd.keyY - self.planet.pos[1]
-
-      #hypotenuse = numpy.sqrt(distX**2+distY**2)
-      theta = numpy.arctan((distY/(distX+.0001)))
-      theta += numpy.deg2rad(90)
-      # print(numpy.rad2deg(theta), " THETA")
-      collisionPos = (0,0)
 
     def draw(self):
             # Draw MAP array
@@ -64,9 +38,8 @@ class RaycastGame(GameEngine):
             #pygame.draw.line(self.screen, (255, 255, 255), self.planet.pos, (self.wasd.keyX, self.wasd.keyY), 5)
 
     def update(self):
-      self.planet.placePlanet()
-      self.wasd.move()
-      self.DDA()
+      self.planet.update()
+      self.wasd.update()
       self.raycast.update()
 
     def run(self):
@@ -79,6 +52,10 @@ class RaycastGame(GameEngine):
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    self.MAP.update()
+                    print((pygame.mouse.get_pos()[0]//self.CELLSIZE),(pygame.mouse.get_pos()[1]//self.CELLSIZE))
+
 
             # Update.
             self.update()

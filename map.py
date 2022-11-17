@@ -1,5 +1,6 @@
 import pygame
 from PygameEngine import GameEngine
+from pygame.locals import *
 
 class Map:
     
@@ -8,7 +9,7 @@ class Map:
     COLS = GameEngine.WIDTH//CELLSIZE
 
     def __init__(self):
-        
+        """
         self.gameMap = [
         ["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
         ["1","_","_","_","_","_","1","1","_","_","_","_","_","_","_","_","_","_", "1", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "1", "_", "1"],
@@ -30,9 +31,43 @@ class Map:
         ["1","_","_","_","_","_","_","_","_","_","_","_","_","1","1","_","1","_", "1", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "1"],
         ["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"]
     ]
+        """
+        self.gameMap=[[""]*33]*19
+        self.loadMap()
+        #self.printMap()
         self.wallMap = {}
         self.getMap()
 
+    def loadMap(self):
+        with open("map.txt") as file:
+            for indexY, line in enumerate(file):
+                self.gameMap[indexY] = line.split(' ')
+
+        self.printMap()
+
+    def printMap(self):
+        for y in self.gameMap:
+            print(y)
+
+    def editMap(self):
+        if not pygame.key.get_pressed()[K_c]:
+            return
+        mouseX, mouseY = pygame.mouse.get_pos()
+
+        mouseX = int(mouseX // self.CELLSIZE)
+        mouseY = int(mouseY // self.CELLSIZE)
+
+        mapType = self.gameMap[mouseY][mouseX]
+        if mapType == "1":
+            self.gameMap[mouseY][mouseX] = "_"
+        elif mapType == "_":
+            self.gameMap[mouseY][mouseX] = "1"
+        self.wallMap.clear()
+        self.getMap()
+
+    def update(self):
+        self.editMap()
+            
     def drawMap(self):
         for yInd, y in enumerate(self.gameMap):
             for xInd in range(len(y)):
