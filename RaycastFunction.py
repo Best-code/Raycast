@@ -16,78 +16,63 @@ class RayCasting:
     def __init__(self, game):
         self.game = game
 
+
     def rayCast(self):
+        scale = self.game.CELLSIZE
+
         ox, oy = self.game.wasd.pos
         x_map = int(ox)
         y_map = int(oy)
 
-        ray_angle = self.game.wasd.angle - self.HALF_FOV + 0.000001
-        for ray in range(self.NUM_RAYS):
-            sin_a = math.sin(ray_angle)
-            cos_a = math.cos(ray_angle)
+        rayAngle = self.game.wasd.angle 
+        # Get the direction the rys are going to shoot in
+        dirX = numpy.cos(rayAngle)
+        dirY = numpy.sin(rayAngle)
 
-            # horizontals
-            y_hor, dy = (y_map + 1, 1) if sin_a > 0 else (y_map - 1e-6, -1)
+        # The distance to the next vertical and horizontal line
+        sideDistX = sideDistY = 0
 
-            depth_hor = (y_hor - oy) / sin_a
-            x_hor = ox + depth_hor * cos_a
+        # If the angle is perpendicular to another axis and will never cross it,
+        #    set that length to max
+        #    else get the trig function
+        deltaDistX = 1 if dirX==0 else abs(1/dirX)
+        deltaDistY = 1 if dirY==0 else abs(1/dirY)
+        
+        # How much we will step by
+        dx = 0
+        dy = 0
+        
+        if dirX < 0:
+            dx = -1
+            sideDistX = (ox - x_map) * deltaDistX
+        else:
+            dx = 1
+            sideDistX = (x_map + 1.0 - ox) * deltaDistX
 
-            delta_depth = dy / sin_a
-            dx = delta_depth * cos_a
-
-            print("YHor: ",y_hor, " DY:", dy, " Depth Hor: ",  depth_hor, "X Hor: ", x_hor,
-             " Delta Depth: ", delta_depth, " DX: ", dx)
-
-            for i in range(self.MAX_DEPTH):
-                tile_hor = int(x_hor), int(y_hor)
-                if tile_hor in self.game.MAP.wallMap:
-                   # print("INSIDE HOR")
-                    break
-                x_hor += dx
-                y_hor += dy
-                depth_hor += delta_depth
-
-            # verticals
-            x_vert, dx = (x_map + 1, 1) if cos_a > 0 else (x_map - 1e-6, -1)
-
-            depth_vert = (x_vert - ox) / cos_a
-            y_vert = oy + depth_vert * sin_a
-
-            delta_depth = dx / cos_a
-            dy = delta_depth * sin_a
-
-            for i in range(self.MAX_DEPTH):
-                tile_vert = int(x_vert), int(y_vert)
-                if tile_vert in self.game.MAP.wallMap:
-                  #  print("INSIDE VERT")
-                    break
-                x_vert += dx
-                y_vert += dy
-                depth_vert += delta_depth
-
-            # depth, texture offset
-            if depth_vert < depth_hor:
-                depth = depth_vert 
-                #y_vert %= 1
-                #offset = y_vert if cos_a > 0 else (1 - y_vert)
+        if (dirY < 0):
+            dy = -1
+            sideDistY = (oy - y_map) * deltaDistY
+        else:
+            dy = 1
+            sideDistY = (y_map + 1.0 - oy) * deltaDistY
+        
+        for i in range(self.MAX_DEPTH):
+            # If we hit a wallstop the loop
+            if((x_map, y_map) in self.game.MAP.wallMap):
+                break
+            # If we can go more on the x axis before catching the y axis we will
+            if(sideDistX < sideDistY):
+                sideDistX += deltaDistX
+                x_map += dx
             else:
-                depth = depth_hor
-            
+            # If we can go more on the y axis before catching the x axis we will
+                sideDistY += deltaDistY
+                y_map += dy
+        
 
-                #x_hor %= 1
-                #offset = (1 - x_hor) if sin_a > 0 else x_hor
+        pygame.draw.line(self.game.screen, "blue", (ox*scale, oy*scale), (x_map*scale, y_map*scale), 5)
+        pygame.draw.circle(self.game.screen, "pink", (x_map*scale,y_map*scale),15)
 
-            # remove fishbowl effect
-            #depth *= math.cos(self.game.wasd.angle - ray_angle)
-
-            # projection
-            #proj_height = SCREEN_DIST / (depth + 0.0001)
-
-            # ray casting result
-            #self.ray_casting_result.append((depth, proj_height, texture, offset))
-
-            ray_angle += self.DELTA_ANGLE
-            pygame.draw.line(self.game.screen, "yellow", (ox*self.game.CELLSIZE,oy*self.game.CELLSIZE), (ox*self.game.CELLSIZE+depth*cos_a, oy*self.game.CELLSIZE+depth*sin_a), 1)
 
     def update(self):
         self.rayCast()
