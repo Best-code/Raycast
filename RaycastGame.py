@@ -40,7 +40,6 @@ class RaycastGame(GameEngine):
     def update(self):
       self.planet.update()
       self.wasd.update()
-      self.raycast.update()
 
     def run(self):
         # Game loop.
@@ -61,6 +60,7 @@ class RaycastGame(GameEngine):
             self.update()
             # Draw
             self.draw()
+            self.raycast.update()
 
 
             pygame.display.flip()

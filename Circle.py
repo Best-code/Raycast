@@ -21,9 +21,12 @@ class Circle:
         self.map = map
     
     def placePlanet(self):
+        pass
+    """
       if pygame.key.get_pressed()[K_SPACE]:
         self.keyX = pygame.mouse.get_pos()[0]
         self.keyY = pygame.mouse.get_pos()[1]
+    """
 
     def draw(self, surface):
         self.pos = (self.keyX,self.keyY)

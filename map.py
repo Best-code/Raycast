@@ -34,7 +34,6 @@ class Map:
         """
         self.gameMap=[[""]*33]*19
         self.loadMap()
-        #self.printMap()
         self.wallMap = {}
         self.getMap()
         
@@ -46,12 +45,6 @@ class Map:
         with open("map.txt") as file:
             for indexY, line in enumerate(file):
                 self.gameMap[indexY] = line.split(' ')
-
-        self.printMap()
-
-    def printMap(self):
-        for y in self.gameMap:
-            print(y)
 
     def editMap(self):
         if not pygame.key.get_pressed()[K_c]:
@@ -68,6 +61,11 @@ class Map:
             self.gameMap[mouseY][mouseX] = "1"
         self.wallMap.clear()
         self.getMap()
+
+        with open("map.txt", 'w') as file:
+            for y in self.gameMap:
+                for x in y:
+                    file.write(x+(" " if x!= "\n" else ""))
 
     def update(self):
         self.editMap()
