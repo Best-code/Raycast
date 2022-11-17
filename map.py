@@ -32,19 +32,32 @@ class Map:
         ["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"]
     ]
         """
-        self.gameMap=[[""]*33]*19
+
+        self.gameMap=[[""]*(self.COLS+1)]*(self.ROWS+1)
         self.loadMap()
         self.wallMap = {}
         self.getMap()
         
         wall = pygame.image.load(os.path.join("Resources","walls.jpg")).convert()
         floor = pygame.image.load(os.path.join("Resources","floor.png")).convert()
+
         self.tiles = [wall, floor]
+        self.tileIndicator = {wall:"1", floor:"_"}
+
+        self.currentTileIndex = 0
+        self.currentTile = self.tileIndicator[self.tiles[self.currentTileIndex]]
 
     def loadMap(self):
         with open("map.txt") as file:
             for indexY, line in enumerate(file):
                 self.gameMap[indexY] = line.split(' ')
+
+    def changeTile(self):
+        if pygame.key.get_pressed()[K_1]:
+            print(self.currentTileIndex, self.currentTile)
+            self.currentTileIndex+=1
+            self.currentTileIndex%=len(self.tiles)
+            self.currentTile = self.tileIndicator[self.tiles[self.currentTileIndex]]
 
     def editMap(self):
         if not pygame.key.get_pressed()[K_c]:
@@ -53,12 +66,14 @@ class Map:
 
         mouseX = int(mouseX // self.CELLSIZE)
         mouseY = int(mouseY // self.CELLSIZE)
-
+        """
         mapType = self.gameMap[mouseY][mouseX]
         if mapType == "1":
             self.gameMap[mouseY][mouseX] = "_"
         elif mapType == "_":
             self.gameMap[mouseY][mouseX] = "1"
+        """
+        self.gameMap[mouseY][mouseX] = self.currentTile
         self.wallMap.clear()
         self.getMap()
 
@@ -69,6 +84,7 @@ class Map:
 
     def update(self):
         self.editMap()
+        self.changeTile()
     
     def blit(self, index, x, y):
         cellsize = self.CELLSIZE

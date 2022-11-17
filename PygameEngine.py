@@ -9,8 +9,8 @@ class GameEngine:
   fpsClock = pygame.time.Clock()
   deltaTime = fpsClock.tick(FPS)
   
-  WIDTH, HEIGHT = 1512, 982
-  screen = pygame.display.set_mode((WIDTH, HEIGHT))
+  WIDTH, HEIGHT = 1500, 982
+  screen = pygame.display.set_mode((WIDTH, HEIGHT),FULLSCREEN)
   
   def __init__(self):
     self.load()
