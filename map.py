@@ -1,7 +1,7 @@
 import pygame
 from PygameEngine import GameEngine
 from pygame.locals import *
-
+import os
 class Map:
     
     CELLSIZE = 47
@@ -37,6 +37,10 @@ class Map:
         #self.printMap()
         self.wallMap = {}
         self.getMap()
+        
+        wall = pygame.image.load(os.path.join("Resources","walls.jpg")).convert()
+        floor = pygame.image.load(os.path.join("Resources","floor.png")).convert()
+        self.tiles = [wall, floor]
 
     def loadMap(self):
         with open("map.txt") as file:
@@ -67,20 +71,28 @@ class Map:
 
     def update(self):
         self.editMap()
+    
+    def blit(self, index, x, y):
+        cellsize = self.CELLSIZE
+        GameEngine.screen.blit(self.tiles[index],(x*cellsize, y*cellsize,cellsize,cellsize))
             
     def drawMap(self):
         for yInd, y in enumerate(self.gameMap):
             for xInd in range(len(y)):
-                if (y[xInd] == "1"):                                # WALL COLOR
-                    pygame.draw.rect(GameEngine.screen, (255, 69, 69),
-                                     pygame.Rect(xInd*self.CELLSIZE, yInd*self.CELLSIZE,
-                                                 self.CELLSIZE, self.CELLSIZE))
+                if (y[xInd] == "1"):
+                                                    # WALL COLOR
+                    #pygame.draw.rect(GameEngine.screen, (255, 69, 69),
+                      #               pygame.Rect(xInd*self.CELLSIZE, yInd*self.CELLSIZE,
+                       #                          self.CELLSIZE, self.CELLSIZE))
+                       self.blit(0,xInd,yInd)
                 else:
-                                                                    # MAP COLOR
-                   """ pygame.draw.rect(GameEngine.screen, (50, 150, 30),
-                                     pygame.Rect(xInd*self.CELLSIZE, yInd*self.CELLSIZE,
-                                     self.CELLSIZE, self.CELLSIZE))
-"""
+                       self.blit(1,xInd,yInd)
+
+                                                            # MAP COLOR
+                """ pygame.draw.rect(GameEngine.screen, (50, 150, 30),
+                pygame.Rect(xInd*self.CELLSIZE, yInd*self.CELLSIZE,
+                self.CELLSIZE, self.CELLSIZE))
+                """
         
     def drawGrid(self):
         for x in range(1, self.COLS+1):
