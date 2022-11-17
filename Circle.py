@@ -4,6 +4,7 @@ from pygame.locals import *
 import numpy
 from map import Map
 import math
+from settings import *
 
 class Circle:
 
@@ -31,10 +32,10 @@ class Circle:
     def draw(self, surface):
         self.pos = (self.keyX,self.keyY)
         pygame.draw.circle(surface, self.rgb,
-                           (self.keyX*self.map.CELLSIZE,self.keyY*self.map.CELLSIZE), self.radius)
+                           (self.keyX*CELLSIZE,self.keyY*CELLSIZE), self.radius)
         # Direction tracker
         pygame.draw.circle(surface, (0,0,0),
-                           (self.keyX*self.map.CELLSIZE+numpy.cos(self.angle)*self.radius,self.keyY*self.map.CELLSIZE+numpy.sin(self.angle)*self.radius), self.radius//3)
+                           (self.keyX*CELLSIZE+numpy.cos(self.angle)*self.radius,self.keyY*CELLSIZE+numpy.sin(self.angle)*self.radius), self.radius//3)
 
     def noWall(self, x, y):
         # Return True if location is not a wall

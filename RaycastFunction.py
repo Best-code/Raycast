@@ -1,24 +1,14 @@
 import pygame
 import numpy
 from PygameEngine import GameEngine
-import sys
-import math
+from settings import *
 
 class RayCasting:
-
-    FOV = numpy.pi/5
-    HALF_FOV = FOV/2
-    NUM_RAYS = GameEngine.WIDTH//2
-    HALF_NUM_RAYS = NUM_RAYS//2
-    DELTA_ANGLE = FOV/NUM_RAYS
-    MAX_DEPTH = 20
 
     def __init__(self, game):
         self.game = game
 
-
     def rayCast(self):
-        scale = self.game.CELLSIZE
 
         ox, oy = self.game.wasd.pos
         x_map = int(ox)
@@ -56,7 +46,7 @@ class RayCasting:
             dy = 1
             sideDistY = (y_map + 1.0 - oy) * deltaDistY
         
-        for i in range(self.MAX_DEPTH):
+        for i in range(MAX_DEPTH):
             # If we hit a wallstop the loop
             if((x_map, y_map) in self.game.MAP.wallMap):
                 break
@@ -70,8 +60,8 @@ class RayCasting:
                 y_map += dy
         
 
-        pygame.draw.line(self.game.screen, "blue", (ox*scale, oy*scale), (x_map*scale, y_map*scale), 5)
-        pygame.draw.circle(self.game.screen, "pink", (x_map*scale,y_map*scale),15)
+        pygame.draw.line(self.game.screen, "blue", (ox*CELLSIZE, oy*CELLSIZE), (x_map*CELLSIZE, y_map*CELLSIZE), 5)
+        pygame.draw.circle(self.game.screen, "pink", (x_map*CELLSIZE,y_map*CELLSIZE),15)
 
 
     def update(self):

@@ -1,0 +1,18 @@
+import numpy
+
+#Main
+FPS = 60
+
+#Map stuff
+CELLSIZE = 47
+WIDTH, HEIGHT = 1500, 982
+ROWS = HEIGHT//CELLSIZE
+COLS = WIDTH//CELLSIZE
+
+# Raycasting stuff
+FOV = numpy.pi/5
+HALF_FOV = FOV/2
+NUM_RAYS = WIDTH//2
+HALF_NUM_RAYS = NUM_RAYS//2
+DELTA_ANGLE = FOV/NUM_RAYS
+MAX_DEPTH = 20

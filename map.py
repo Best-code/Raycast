@@ -2,13 +2,15 @@ import pygame
 from PygameEngine import GameEngine
 from pygame.locals import *
 import os
-class Map:
-    
-    CELLSIZE = 47
-    ROWS = GameEngine.HEIGHT//CELLSIZE
-    COLS = GameEngine.WIDTH//CELLSIZE
 
-    def __init__(self):
+from settings import *
+
+class Map:
+
+    def __init__(self, game):
+
+        self.game = game
+
         """
         self.gameMap = [
         ["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
@@ -33,7 +35,7 @@ class Map:
     ]
         """
 
-        self.gameMap=[[""]*(self.COLS+1)]*(self.ROWS+1)
+        self.gameMap=[[""]*(COLS+1)]*(ROWS+1)
         self.loadMap()
         self.wallMap = {}
         self.getMap()
@@ -64,8 +66,8 @@ class Map:
             return
         mouseX, mouseY = pygame.mouse.get_pos()
 
-        mouseX = int(mouseX // self.CELLSIZE)
-        mouseY = int(mouseY // self.CELLSIZE)
+        mouseX = int(mouseX // CELLSIZE)
+        mouseY = int(mouseY // CELLSIZE)
         """
         mapType = self.gameMap[mouseY][mouseX]
         if mapType == "1":
@@ -87,8 +89,7 @@ class Map:
         self.changeTile()
     
     def blit(self, index, x, y):
-        cellsize = self.CELLSIZE
-        GameEngine.screen.blit(self.tiles[index],(x*cellsize, y*cellsize,cellsize,cellsize))
+        GameEngine.screen.blit(self.tiles[index],(x*CELLSIZE, y*CELLSIZE,CELLSIZE,CELLSIZE))
             
     def drawMap(self):
         for yInd, y in enumerate(self.gameMap):
@@ -96,25 +97,25 @@ class Map:
                 if (y[xInd] == "1"):
                                                     # WALL COLOR
                     #pygame.draw.rect(GameEngine.screen, (255, 69, 69),
-                      #               pygame.Rect(xInd*self.CELLSIZE, yInd*self.CELLSIZE,
-                       #                          self.CELLSIZE, self.CELLSIZE))
+                      #               pygame.Rect(xInd*CELLSIZE, yInd*CELLSIZE,
+                       #                          CELLSIZE, CELLSIZE))
                        self.blit(0,xInd,yInd)
                 else:
                        self.blit(1,xInd,yInd)
 
                                                             # MAP COLOR
                 """ pygame.draw.rect(GameEngine.screen, (50, 150, 30),
-                pygame.Rect(xInd*self.CELLSIZE, yInd*self.CELLSIZE,
-                self.CELLSIZE, self.CELLSIZE))
+                pygame.Rect(xInd*CELLSIZE, yInd*CELLSIZE,
+                CELLSIZE, CELLSIZE))
                 """
         
     def drawGrid(self):
-        for x in range(1, self.COLS+1):
+        for x in range(1, COLS+1):
             pygame.draw.line(GameEngine.screen, (0xff, 0xff, 0xff), (
-                x*self.CELLSIZE, 0), (x*self.CELLSIZE, GameEngine.HEIGHT))
-        for y in range(1, self.ROWS+1):
+                x*CELLSIZE, 0), (x*CELLSIZE, HEIGHT))
+        for y in range(1, ROWS+1):
             pygame.draw.line(GameEngine.screen, (0xff, 0xff, 0xff),
-                             (0, y*self.CELLSIZE), (GameEngine.WIDTH, y*self.CELLSIZE))
+                             (0, y*CELLSIZE), (GameEngine.WIDTH, y*CELLSIZE))
 
     def getMap(self):
         for j, row in enumerate(self.gameMap):

@@ -5,6 +5,7 @@ from pygame.locals import *
 import sys
 from map import Map
 from RaycastFunction import RayCasting
+from settings import *
 
 class RaycastGame(GameEngine):
 
@@ -12,10 +13,8 @@ class RaycastGame(GameEngine):
         super().__init__()
         self.load()
 
-        self.MAP = Map()
+        self.MAP = Map(self)
         
-        self.CELLSIZE = self.MAP.CELLSIZE
-
         # Circle controllable with WASD
         self.wasd = Circle((123, 255, 123), self.MAP)
 
@@ -56,4 +55,4 @@ class RaycastGame(GameEngine):
 
 
             pygame.display.flip()
-            self.fpsClock.tick(self.FPS)
+            self.fpsClock.tick(FPS)
