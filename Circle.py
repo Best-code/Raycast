@@ -12,7 +12,7 @@ class Circle:
     rotateSpeed = .2
     speedSin, speedCos = 0,0
     angle = 0
-    keyX = 5
+    keyX = 2
     keyY = 10
     pos = (1,1)
     radius = 25

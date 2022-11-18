@@ -15,7 +15,7 @@ class ObjectRenderer:
             self.game.screen.blit(image, pos)
     
     @staticmethod
-    def getTexture(path, res=(TEXTURE_SISZE, TEXTURE_SISZE)):
+    def getTexture(path, res=(TEXTURE_SIZE, TEXTURE_SIZE)):
         texture = pygame.image.load(path).convert_alpha()
         return pygame.transform.scale(texture,res)
     
