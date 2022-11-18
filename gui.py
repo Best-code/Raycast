@@ -6,9 +6,11 @@ class GUI:
     def __init__(self, game, map):
         self.game = game
         self.map = map
-        self.tiles = self.map.tiles
+       # self.tiles = self.map.tiles
     
     def drawGui(self):
+        pass
+    """
         
         # PRINT THE INVENTORY BACKGROUND
         inventoryBox = pygame.Surface((WIDTH//3,CELLSIZE*1.3))  # the size of your rect
@@ -33,3 +35,4 @@ class GUI:
         self.game.screen.blit(blitTile, (WIDTH//3+20,HEIGHT-100+(CELLSIZE+CELLSIZE*1.3)/2))   # (x,y) are the top-left coordinates
         
         
+    """

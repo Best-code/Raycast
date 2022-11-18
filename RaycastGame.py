@@ -7,6 +7,7 @@ from map import Map
 from RaycastFunction import RayCasting
 from settings import *
 from gui import GUI
+from objectRenderer import ObjectRenderer
 
 class RaycastGame(GameEngine):
 
@@ -15,6 +16,8 @@ class RaycastGame(GameEngine):
         self.load()
 
         self.MAP = Map(self)
+
+        self.ObjectRenderer = ObjectRenderer(self)
 
         self.gui = GUI(self, self.MAP)
         
@@ -29,10 +32,11 @@ class RaycastGame(GameEngine):
             #self.MAP.drawGrid()
             #self.wasd.draw(self.screen)
             #self.gui.drawGui()
-            pass
+            self.ObjectRenderer.draw()
 
     def update(self):
       self.wasd.update()
+      self.raycast.update()
 
     def run(self):
         # Game loop.
@@ -55,7 +59,6 @@ class RaycastGame(GameEngine):
             self.draw()
 
             # Drawing the Raycast collisino ray
-            self.raycast.update()
 
 
             pygame.display.flip()
