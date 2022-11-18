@@ -6,6 +6,7 @@ import sys
 from map import Map
 from RaycastFunction import RayCasting
 from settings import *
+from gui import GUI
 
 class RaycastGame(GameEngine):
 
@@ -14,6 +15,8 @@ class RaycastGame(GameEngine):
         self.load()
 
         self.MAP = Map(self)
+
+        self.gui = GUI(self, self.MAP)
         
         # Circle controllable with WASD
         self.wasd = Circle((123, 255, 123), self.MAP)
@@ -24,8 +27,8 @@ class RaycastGame(GameEngine):
             # Draw MAP array
             self.MAP.drawMap()
             self.MAP.drawGrid()
-
             self.wasd.draw(self.screen)
+            self.gui.drawGui()
 
     def update(self):
       self.wasd.update()
