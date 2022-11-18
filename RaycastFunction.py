@@ -15,6 +15,8 @@ class RayCasting:
         self.objectsToRender = []
         for ray, values in enumerate(self.raycastingResult):
             depth, proj_height, texture, offset = values
+            
+            texture = str(texture)
 
             if proj_height < HEIGHT:
                 wallColumn = self.textures[texture].subsurface(

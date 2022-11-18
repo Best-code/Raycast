@@ -12,7 +12,7 @@ ROWS = HEIGHT//CELLSIZE
 COLS = WIDTH//CELLSIZE
 
 # Raycasting stuff
-FOV = numpy.pi/5
+FOV = numpy.pi/2.5
 HALF_FOV = FOV/2
 NUM_RAYS = WIDTH//2
 HALF_NUM_RAYS = NUM_RAYS//2
