@@ -8,8 +8,8 @@ from settings import *
 
 class Circle:
 
-    keySpeed = .01
-    rotateSpeed = .3
+    keySpeed = .005
+    rotateSpeed = .2
     speedSin, speedCos = 0,0
     angle = 0
     keyX = 5
@@ -30,7 +30,6 @@ class Circle:
     """
 
     def draw(self, surface):
-        self.pos = (self.keyX,self.keyY)
         pygame.draw.circle(surface, self.rgb,
                            (self.keyX*CELLSIZE,self.keyY*CELLSIZE), self.radius)
         # Direction tracker
@@ -50,6 +49,7 @@ class Circle:
 
 
     def move(self):
+        self.pos = (self.keyX,self.keyY)
         sinA = numpy.sin(self.angle)
         cosA = numpy.cos(self.angle)
         speed = self.keySpeed * GameEngine.deltaTime

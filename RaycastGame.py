@@ -25,10 +25,11 @@ class RaycastGame(GameEngine):
 
     def draw(self):
             # Draw MAP array
-            self.MAP.drawMap()
-            self.MAP.drawGrid()
-            self.wasd.draw(self.screen)
-            self.gui.drawGui()
+            #self.MAP.drawMap()
+            #self.MAP.drawGrid()
+            #self.wasd.draw(self.screen)
+            #self.gui.drawGui()
+            pass
 
     def update(self):
       self.wasd.update()
