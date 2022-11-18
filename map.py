@@ -43,7 +43,7 @@ class Map:
         wall = pygame.image.load(os.path.join("Resources","walls.jpg")).convert()
         floor = pygame.image.load(os.path.join("Resources","floor.png")).convert()
 
-        self.tiles = [wall, floor, wall]
+        self.tiles = [wall, floor]
         self.tileIndicator = {wall:"1", floor:"_"}
 
         self.currentTileIndex = 0
